@@ -12,7 +12,7 @@ import {
   calculateTopRightSidesResize,
   calculateTopLeftSidesResize,
   calculateDragSelection,
-} from './calculations';
+} from '../core/calculate';
 import { getClientY } from '../helpers';
 import Cursors, { setCursor } from '../utils/cursors';
 import * as sides from '../utils/sides';

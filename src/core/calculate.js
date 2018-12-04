@@ -1,4 +1,4 @@
-import { getClientY } from './utils/events';
+import { getClientY } from '../utils/events';
 
 const replaceSecondWith = nextArg => (arg, i) => {
   if (i !== 1) return arg;
@@ -241,13 +241,4 @@ export const calculateDragSelection = (...args) => {
     x: x + extraPadding.left,
     y: y + extraPadding.top
   });
-};
-
-export const calculateRotatedVertex = (vertexCoors, centerCoors, angle) => {
-  const a = -angle * (Math.PI / 180);
-  const rotatedX = (centerCoors.x + ((vertexCoors.x - centerCoors.x)
-    * Math.cos(a))) - ((vertexCoors.y - centerCoors.y) * Math.sin(a));
-  const rotatedY = centerCoors.y + ((vertexCoors.y - centerCoors.y)
-    * Math.cos(a)) + ((vertexCoors.x - centerCoors.x) * Math.sin(a));
-  return { x: rotatedX, y: rotatedY };
 };
