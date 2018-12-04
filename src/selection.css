@@ -1,0 +1,107 @@
+.mr-selection-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.mr-interactive-selection {
+  cursor: grab;
+  cursor: -webkit-grab;
+  cursor: -moz-grab;
+}
+
+.mr-interactive-selection--drag {
+  box-shadow: 0px 0px 50px 3px rgba(0,0,0,0.35);
+  z-index: 999!important;
+  cursor: inherit;
+}
+
+.mr-selection {
+  position: absolute;
+  outline: none;
+}
+
+.mr-selection--transparent {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.mr-selection .mr-selection__handle {
+  background-color: var(--bg-color);
+}
+
+.mr-selection__handle {
+  position: absolute;
+  display: block;
+  border-radius: 50%;
+  background-color: rgb(139, 139, 139);
+  border: 1px solid #000;
+  transition: all 0.2s;
+  transform: scale(0.1);
+  opacity: 0;
+  width: var(--handle-size);
+  height: var(--handle-size);
+  left: calc(50% - var(--handle-size) / 2);
+  top: calc(50% - var(--handle-size) / 2);
+}
+
+.mr-selection--transparent .mr-selection__handle,
+.mr-selection--drag .mr-selection__handle {
+  cursor: inherit;
+}
+
+.mr-selection:focus .mr-selection__handle,
+.mr-selection:hover .mr-selection__handle,
+.mr-selection--drag .mr-selection__handle,
+.mr-selection--focused .mr-selection__handle {
+  transform: scale(1);
+  opacity: 1;
+}
+
+.mr-selection__handle--top-left {
+  top: calc(var(--handle-size) / -1.5);
+  left: calc(var(--handle-size) / -1.5);
+  cursor: nwse-resize;
+  z-index: 1;
+}
+
+.mr-selection__handle--top-center {
+  top: calc(var(--handle-size) / -1.5);
+  cursor: ns-resize;
+}
+
+.mr-selection__handle--top-right {
+  top: calc(var(--handle-size) / -1.5);
+  left: calc(100% - var(--handle-size) / 2.5);
+  cursor: nesw-resize;
+  z-index: 1;
+}
+
+.mr-selection__handle--right-center {
+  left: calc(100% - var(--handle-size) / 2.5);
+  cursor: ew-resize;
+}
+
+.mr-selection__handle--bottom-right {
+  top: calc(100% - var(--handle-size) / 2.5);
+  left: calc(100% - var(--handle-size) / 2.5);
+  cursor: nwse-resize;
+  z-index: 1;
+}
+
+.mr-selection__handle--bottom-center {
+  top: calc(100% - var(--handle-size) / 2.5);
+  cursor: ns-resize;
+}
+
+.mr-selection__handle--bottom-left {
+  top: calc(100% - var(--handle-size) / 2.5);
+  left: calc(var(--handle-size) / -1.5);
+  cursor: nesw-resize;
+  z-index: 1;
+}
+
+.mr-selection__handle--left-center {
+  left: calc(var(--handle-size) / -1.5);
+  cursor: ew-resize;
+}

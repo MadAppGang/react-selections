@@ -1,0 +1,25 @@
+{
+  "name": "react-selection",
+  "version": "1.0.0",
+  "description": "Draw interactive area selections in react apps",
+  "main": "dist/index.js",
+  "directories": {
+    "example": "examples"
+  },
+  "dependencies": {
+    "css-class-combiner": "^1.0.4",
+    "prop-types": "^15.6.2",
+    "react": "^16.4.1"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-preset-es2015": "^6.24.1",
+    "babel-preset-react": "^6.24.1",
+    "babel-preset-stage-1": "^6.24.1"
+  },
+  "scripts": {
+    "build": "babel src -d dist"
+  },
+  "author": "MadAppGang",
+  "license": "ISC"
+}
