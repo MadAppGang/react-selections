@@ -1,7 +1,7 @@
 {
-  "name": "react-selection",
+  "name": "react-selections",
   "version": "1.0.0",
-  "description": "Draw interactive area selections in react apps",
+  "description": "Interactive area selections for react apps",
   "main": "dist/index.js",
   "scripts": {
     "build": "rm -rf dist && babel src -d dist"
