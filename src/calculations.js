@@ -8,15 +8,22 @@ const replaceSecondWith = nextArg => (arg, i) => {
 
 export const calculateRightSideResize = (...args) => {
   const [event, selectionParameters, containerParameters] = args;
+
   const {
     coordinates: { y, x },
     dimensions: { width, height },
   } = selectionParameters;
+
   const {
-    offsets: { left: containerLeftBorder },
-    dimensions: { width: containerWidth },
+    offsets: {
+      left: containerLeftBorder,
+    },
+    dimensions: {
+      width: containerWidth,
+    },
     extraPadding = { left: 0 },
   } = containerParameters;
+
   const innerX = x - extraPadding.left;
   const { clientX } = event;
   const boxRightBorder = innerX + width;
@@ -26,7 +33,9 @@ export const calculateRightSideResize = (...args) => {
 
   const tooCloseToLeft = eventXWithinContainer - innerX <= 10;
 
-  if (tooCloseToLeft) return selectionParameters;
+  if (tooCloseToLeft) {
+    return selectionParameters;
+  }
 
   if (eventXWithinContainer > containerWidth) {
     nextWidth = containerWidth - innerX;
@@ -34,22 +43,25 @@ export const calculateRightSideResize = (...args) => {
     nextWidth = width + differenceBetweenOldBorder;
   }
 
-  return {
+  return Object.freeze({
     dimensions: { width: nextWidth, height },
     coordinates: { x, y },
-  };
+  });
 };
 
 export const calculateLeftSideResize = (...args) => {
   const [event, selectionParameters, containerParameters] = args;
+
   const {
     coordinates: { y, x },
     dimensions: { width, height },
   } = selectionParameters;
+
   const {
     offsets: { left: containerLeftBorder },
     extraPadding = { left: 0 },
   } = containerParameters;
+
   const innerX = x - extraPadding.left;
   const { clientX } = event;
   const boxRightBorder = innerX + width;
@@ -60,7 +72,9 @@ export const calculateLeftSideResize = (...args) => {
 
   const tooCloseToRight = boxRightBorder - eventXWithinContainer <= 10;
 
-  if (tooCloseToRight) return selectionParameters;
+  if (tooCloseToRight) {
+    return selectionParameters;
+  }
 
   if (eventXWithinContainer <= 0) {
     nextX = 0;
@@ -70,23 +84,26 @@ export const calculateLeftSideResize = (...args) => {
     nextWidth = width - differenceBetweenOldBorder;
   }
 
-  return {
+  return Object.freeze({
     dimensions: { width: nextWidth, height },
     coordinates: { x: nextX + extraPadding.left, y },
-  };
+  });
 };
 
 export const calculateBottomSideResize = (...args) => {
   const [event, selectionParameters, containerParameters] = args;
+
   const {
     coordinates: { x, y },
     dimensions: { width, height },
   } = selectionParameters;
+
   const {
     offsets: { top: containerTopBorder },
     dimensions: { height: containerHeight },
     extraPadding = { top: 0 },
   } = containerParameters;
+
   const innerY = y - extraPadding.top;
   const clientY = getClientY(event);
   const eventYWithinContainer = clientY - containerTopBorder;
@@ -96,7 +113,9 @@ export const calculateBottomSideResize = (...args) => {
 
   const tooCloseToTop = eventYWithinContainer - innerY <= 10;
 
-  if (tooCloseToTop) return selectionParameters;
+  if (tooCloseToTop) {
+    return selectionParameters;
+  }
 
   if (eventYWithinContainer > containerHeight) {
     nextHeight = containerHeight - innerY;
@@ -104,33 +123,39 @@ export const calculateBottomSideResize = (...args) => {
     nextHeight = height + differenceBetweenOldBorder;
   }
 
-  return {
+  return Object.freeze({
     coordinates: { x, y },
     dimensions: { height: nextHeight, width },
-  };
+  });
 };
 
 export const calculateTopSideResize = (...args) => {
   const [event, selectionParameters, containerParameters] = args;
+
   const {
     coordinates: { x, y },
     dimensions: { width, height },
   } = selectionParameters;
+
   const {
     offsets: { top: containerTopBorder },
     extraPadding = { top: 0 },
   } = containerParameters;
+
   const innerY = y - extraPadding.top;
   const clientY = getClientY(event);
   const selectionBottomBorder = innerY + height;
   const eventYWithinContainer = clientY - containerTopBorder;
   const differenceBetweenOldBorder = innerY - eventYWithinContainer;
+
   let nextHeight;
   let nextY;
 
   const tooCloseToBottom = selectionBottomBorder - eventYWithinContainer <= 10;
 
-  if (tooCloseToBottom) return selectionParameters;
+  if (tooCloseToBottom) {
+    return selectionParameters;
+  }
 
   if (eventYWithinContainer <= 0) {
     nextHeight = selectionBottomBorder;
@@ -140,10 +165,10 @@ export const calculateTopSideResize = (...args) => {
     nextY = innerY - differenceBetweenOldBorder;
   }
 
-  return {
+  return Object.freeze({
     coordinates: { x, y: nextY + extraPadding.top },
     dimensions: { width, height: nextHeight },
-  };
+  });
 };
 
 export const calculateBottomLeftSidesResize = (...args) => {
@@ -176,11 +201,13 @@ export const calculateTopRightSidesResize = (...args) => {
 
 export const calculateDragSelection = (...args) => {
   const [event, selectionParameters, innerOffsets, containerParameters] = args;
+
   const {
     dimensions: {
       height, width,
     },
   } = selectionParameters;
+
   const {
     offsets: {
       left: containerLeftBorder,
@@ -192,8 +219,10 @@ export const calculateDragSelection = (...args) => {
     },
     extraPadding = { left: 0, top: 0 },
   } = containerParameters;
+
   const { clientX } = event;
   const clientY = getClientY(event);
+
   let x = clientX - containerLeftBorder - innerOffsets.left;
   let y = clientY - containerTopBorder - innerOffsets.top;
 
@@ -208,7 +237,10 @@ export const calculateDragSelection = (...args) => {
     y = containerHeight - height;
   }
 
-  return { x: x + extraPadding.left, y: y + extraPadding.top };
+  return Object.freeze({
+    x: x + extraPadding.left,
+    y: y + extraPadding.top
+  });
 };
 
 export const calculateRotatedVertex = (vertexCoors, centerCoors, angle) => {
