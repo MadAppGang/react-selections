@@ -1,6 +1,6 @@
 ### React Selection
 
-This is a library that provides a tool to draw regions with mouse. The library provides a set of different regions that serve different purposes.
+This is a library that provides a set of tools to draw regions with mouse.
 
 ![Example](https://image.ibb.co/mfodSJ/ezgif_com_gif_maker.gif "Example")
 
@@ -12,7 +12,7 @@ npm install --save react-selections
 
 ### Usage
 
-You need to specify an area the selections will be active inside of. Selections can't be drawn outside the container. The package provides a container component, which you should use to render as a parent node to your selections (and other components as well).
+You need to specify an area for the selections to be rendered inside of. Selections can't be drawn outside the container. The package provides a container component, which you should use to render as a parent node to your selections (and other components as well).
 
 ```javascript
 import { SelectionContainer, InteractiveSelection } from 'react-selections';
@@ -23,14 +23,14 @@ You then simply wrap your area that you want to render selections above in the c
 ```javascript
 ...
 <SelectionContainer>
-  <div>
-    <InteractiveSelection
+  <InteractiveSelection
     area={{
       dimensions: { height: 150, width: 300 }, // pixels
-    coordinates: { x: 100, y: 100 }, // pixels
-      }}
+      coordinates: { x: 100, y: 100 }, // pixels
+    }}
   />
-  </div>
+  <AnyOtherComponent />
+  ...
 </SelectionContainer>
 ...
 ```
