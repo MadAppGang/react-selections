@@ -1,4 +1,4 @@
-import { getClientY } from './helpers';
+import { getClientY } from './utils/events';
 
 const replaceSecondWith = nextArg => (arg, i) => {
   if (i !== 1) return arg;

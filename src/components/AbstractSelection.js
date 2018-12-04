@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import './selection.css';
+import '../styles/index.css';
 
 class AbstractSelection extends Component {
   constructor(props) {

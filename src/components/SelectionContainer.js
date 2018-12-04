@@ -1,9 +1,8 @@
 import React, { Component, Children, cloneElement } from 'react';
 import PropTypes from 'prop-types';
 import CSSClassBuilder from 'css-class-combiner';
-
 import SelectionWrapper from './SelectionWrapper';
-import { sortByArea } from './helpers';
+import { sortByArea } from '../utils/area';
 
 class SelectionContainer extends Component {
   constructor(props) {

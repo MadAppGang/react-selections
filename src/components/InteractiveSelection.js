@@ -2,8 +2,6 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CSSClassBuilder from 'css-class-combiner';
 import StyledSelection from './StyledSelection';
-
-import { sides } from './consts';
 import {
   calculateTopSideResize,
   calculateBottomSideResize,
@@ -15,8 +13,9 @@ import {
   calculateTopLeftSidesResize,
   calculateDragSelection,
 } from './calculations';
-import { getClientY } from './helpers';
-import { Cursors, setCursor } from './cursor';
+import { getClientY } from '../helpers';
+import Cursors, { setCursor } from '../utils/cursors';
+import * as sides from '../utils/sides';
 
 const MIN_DIMENSION_SIZE_FOR_BIG_HANDLE = 40;
 const BIG_HANDLE_SIZE = 10;

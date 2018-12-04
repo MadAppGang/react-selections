@@ -3,9 +3,6 @@
   "version": "1.0.0",
   "description": "Draw interactive area selections in react apps",
   "main": "dist/index.js",
-  "directories": {
-    "example": "examples"
-  },
   "dependencies": {
     "css-class-combiner": "^1.0.4",
     "prop-types": "^15.6.2",
