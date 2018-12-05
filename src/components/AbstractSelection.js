@@ -27,13 +27,14 @@ class AbstractSelection extends Component {
 
   getPositionStyles() {
     const { dimensions, coordinates } = this.state.area;
-    return {
+
+    return Object.freeze({
       width: `${dimensions.width}px`,
       height: `${dimensions.height}px`,
       left: `${coordinates.x}px`,
       top: `${coordinates.y}px`,
       zIndex: this.props.zIndex,
-    };
+    });
   }
 
   getClassName() {

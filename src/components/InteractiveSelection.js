@@ -13,7 +13,7 @@ import {
   calculateTopLeftSidesResize,
   calculateDragSelection,
 } from '../core/calculate';
-import { getClientY } from '../helpers';
+import { getClientY } from '../utils/events';
 import Cursors, { setCursor } from '../utils/cursors';
 import * as sides from '../utils/sides';
 

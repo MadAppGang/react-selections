@@ -57,7 +57,8 @@ class SelectionContainer extends Component {
     const style = {};
 
     const hasZeroDimension = Object
-      .values(rootParameters.dimensions).some(val => val === 0);
+      .values(rootParameters.dimensions)
+      .some(val => val === 0);
 
     if (!hasZeroDimension) {
       style.width = `${rootParameters.dimensions.width}px`;
