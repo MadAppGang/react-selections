@@ -1,10 +1,10 @@
 {
   "name": "react-selections",
-  "version": "1.0.1",
+  "version": "1.0.3",
   "description": "Interactive area selections for react apps",
   "main": "dist/index.js",
   "scripts": {
-    "build": "rm -rf dist && babel src -d dist",
+    "build": "rm -rf dist && babel src -d dist && cp -r src/styles dist",
     "test": "jest",
     "test:w": "jest --watch",
     "test:cov": "jest --coverage"
