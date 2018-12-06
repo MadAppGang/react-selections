@@ -1,5 +1,6 @@
 ### React Selection
 [![Build Status](https://travis-ci.org/MadAppGang/react-selections.svg?branch=master)](https://travis-ci.org/MadAppGang/react-selections)
+[![Coverage Status](https://coveralls.io/repos/github/MadAppGang/react-selections/badge.svg?branch=master)](https://coveralls.io/github/MadAppGang/react-selections?branch=master)
 
 This is a library that provides a set of tools to draw regions with mouse.
 
