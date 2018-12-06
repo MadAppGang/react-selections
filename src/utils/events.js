@@ -1,10 +1,13 @@
-export const getClientY = (event) => {
-  let output;
-  if (event.changedTouches) {
-    output = event.changedTouches[0].clientY;
-  } else {
-    output = event.clientY;
-  }
+const getClientYWithGlobalOffset = (globalOffset) => {
+  return function getClientY(event) {
+    if (event.changedTouches) {
+      return  event.changedTouches[0].clientY + globalOffset;
+    }
 
-  return output + window.pageYOffset;
+    return event.clientY + globalOffset;
+  }
 };
+
+export const getClientY = getClientYWithGlobalOffset(window.pageYOffset);
+
+export { getClientYWithGlobalOffset };
