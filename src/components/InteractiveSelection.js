@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import CSSClassBuilder from 'css-class-combiner';
-import StyledSelection from './StyledSelection';
+import AbstractSelection from './AbstractSelection';
 import {
   calculateTopSideResize,
   calculateBottomSideResize,
@@ -34,7 +34,7 @@ const getHandleSize = (regionDimensions) => {
   return BIG_HANDLE_SIZE;
 };
 
-class InteractiveSelection extends StyledSelection {
+class InteractiveSelection extends AbstractSelection {
   constructor(props) {
     super(props);
     this.containerParameters = props.containerParameters;
