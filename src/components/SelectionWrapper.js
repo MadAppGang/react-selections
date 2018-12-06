@@ -12,6 +12,7 @@ function SelectionWrapper(props) {
 
 const bind = (func, ctx) => {
   const boundFunc = func.bind(ctx);
+
   boundFunc.originalFunc = func;
 
   return boundFunc;

@@ -15,6 +15,8 @@ import {
 } from '../core/calculate';
 import { getClientY } from '../utils/events';
 import Cursors, { setCursor } from '../utils/cursors';
+import { asSelection } from './SelectionWrapper';
+
 import * as sides from '../utils/sides';
 
 const MIN_DIMENSION_SIZE_FOR_BIG_HANDLE = 40;
@@ -307,4 +309,4 @@ InteractiveSelection.defaultProps = {
   onUpdateSelection: null,
 };
 
-export default InteractiveSelection;
+export default asSelection(InteractiveSelection);

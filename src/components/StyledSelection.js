@@ -18,10 +18,10 @@ class StyledSelection extends AbstractSelection {
   }
 
   getStyles() {
-    return Object.freeze({
+    return {
       ...this.props.style,
       ...this.getPositionStyles(),
-    });
+    };
   }
 }
 

@@ -19,6 +19,8 @@
 .mr-selection {
   position: absolute;
   outline: none;
+  background: #eee;
+  border: 4px dashed #ccc;
 }
 
 .mr-selection--transparent {
