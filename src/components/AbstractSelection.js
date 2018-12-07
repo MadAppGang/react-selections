@@ -68,9 +68,11 @@ class AbstractSelection extends Component {
     const styles = this.getStyles();
     const className = this.getClassName();
 
+    const { focusable = true } = this.props;
+
     return (
       <div
-        tabIndex={+this.props.focusable - 1}
+        tabIndex={+focusable - 1}
         role="button"
         ref={el => this.selectionEl = el}
         className={className}

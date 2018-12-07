@@ -15,7 +15,6 @@ import {
 } from '../core/calculate';
 import { getClientY } from '../utils/events';
 import Cursors, { setCursor } from '../utils/cursors';
-import { asSelection } from './SelectionWrapper';
 
 import * as sides from '../utils/sides';
 
@@ -250,6 +249,7 @@ class InteractiveSelection extends AbstractSelection {
   render() {
     const styles = this.getStyles();
     const className = this.getClassName();
+
     return (
       <div
         tabIndex={0}
@@ -314,4 +314,4 @@ InteractiveSelection.defaultProps = {
   onUpdateSelection: null,
 };
 
-export default asSelection(InteractiveSelection);
+export default InteractiveSelection;

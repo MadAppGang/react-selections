@@ -1,13 +1,9 @@
-import AbstractSelection from './components/AbstractSelection';
-import StyledSelection from './components/StyledSelection';
-import InteractiveSelection from './components/InteractiveSelection';
 import { asSelection } from './components/SelectionWrapper';
 import SelectionContainer from './components/SelectionContainer';
+import Selection from './components/SelectionFacade';
 
 export {
-  AbstractSelection,
-  StyledSelection,
-  InteractiveSelection,
+  Selection,
   asSelection,
   SelectionContainer,
 };
