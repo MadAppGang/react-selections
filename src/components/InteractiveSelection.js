@@ -185,7 +185,12 @@ class InteractiveSelection extends AbstractSelection {
       this.containerParameters,
     );
 
-    this.setState({ area });
+    this.setState({
+      area: {
+        ...this.state.area,
+        ...area,
+      },
+    });
   }
 
   stopDragSelection() {
