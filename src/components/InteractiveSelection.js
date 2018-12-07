@@ -20,8 +20,8 @@ import { asSelection } from './SelectionWrapper';
 import * as sides from '../utils/sides';
 
 const MIN_DIMENSION_SIZE_FOR_BIG_HANDLE = 40;
-const BIG_HANDLE_SIZE = 10;
-const SMALL_HANDLE_SIZE = 8;
+const BIG_HANDLE_SIZE = 8;
+const SMALL_HANDLE_SIZE = 5;
 
 const getHandleSize = (regionDimensions) => {
   const isRegionTooSmall = Object.values(regionDimensions)

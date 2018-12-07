@@ -11,16 +11,16 @@
 }
 
 .mr-interactive-selection--drag {
-  box-shadow: 0px 0px 50px 3px rgba(0,0,0,0.35);
   z-index: 999!important;
+  border-color: #aaa !important;
   cursor: inherit;
 }
 
 .mr-selection {
   position: absolute;
   outline: none;
-  background: #eee;
-  border: 4px dashed #ccc;
+  background: transparent;
+  border: 2px dashed #ccc;
 }
 
 .mr-selection--transparent {
@@ -30,12 +30,13 @@
 
 .mr-selection .mr-selection__handle {
   background-color: var(--bg-color);
+  --bg-color: #eee;
 }
 
 .mr-selection__handle {
   position: absolute;
   display: block;
-  border-radius: 50%;
+  border-radius: 0;
   background-color: rgb(139, 139, 139);
   border: 1px solid #000;
   transition: all 0.2s;
