@@ -1,8 +1,8 @@
-import React, { Component, Children, cloneElement } from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import CSSClassBuilder from 'css-class-combiner';
-import SelectionWrapper from './SelectionWrapper';
-import { sortByArea } from '../utils/area';
+
+export const SelectionContext = React.createContext('selection_container');
 
 class SelectionContainer extends Component {
   constructor(props) {
@@ -53,7 +53,7 @@ class SelectionContainer extends Component {
 
   render() {
     const { rootParameters } = this.state;
-    const extraProps = { containerParameters: rootParameters };
+    // const extraProps = { containerParameters: rootParameters };
     const style = {};
 
     const hasZeroDimension = Object
@@ -65,30 +65,21 @@ class SelectionContainer extends Component {
       style.height = `${rootParameters.dimensions.height}px`;
     }
 
-    const children = Children.toArray(this.props.children);
-
-    // find selections in children to insert props into them
-    const selections = children
-      .filter(child => child.type.originalFunc === SelectionWrapper)
-      .sort((a, b) => sortByArea(a.props, b.props))
-      .map((selection, index) =>
-        cloneElement(selection, { ...extraProps, zIndex: index + 1 }));
-
-    const restOfChildren = children
-      .filter(c => c.type.originalFunc !== SelectionWrapper);
-
     const className = new CSSClassBuilder('mr-selection-container')
       .combine(this.props.className);
 
     return (
-      <div
-        ref={el => this.root = el}
-        className={className}
-        style={style}
+      <SelectionContext.Provider
+        value={{ containerParameters: rootParameters }}
       >
-        {restOfChildren}
-        {selections}
-      </div>
+        <div
+          ref={el => this.root = el}
+          className={className}
+          style={style}
+        >
+          {this.props.children}
+        </div>
+      </SelectionContext.Provider>
     );
   }
 }

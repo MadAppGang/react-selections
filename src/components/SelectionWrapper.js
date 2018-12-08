@@ -1,23 +1,18 @@
-import React from 'react';
+import React, { Component } from 'react';
+import { SelectionContext } from './SelectionContainer';
 
-function SelectionWrapper(props) {
-  const component = this.selection;
-
-  if (!component) {
-    return null;
+const asSelection = (Selection) => {
+  class WrappedSelection extends Component {
+    render() {
+      return (
+        <Selection {...this.props} {...this.context} />
+      );
+    }
   }
 
-  return <this.selection {...props} />;
-}
+  WrappedSelection.contextType = SelectionContext;
 
-const bind = (func, ctx) => {
-  const boundFunc = func.bind(ctx);
-
-  boundFunc.originalFunc = func;
-
-  return boundFunc;
+  return WrappedSelection;
 };
 
-export const asSelection = selection => bind(SelectionWrapper, { selection });
-
-export default SelectionWrapper;
+export { asSelection }
