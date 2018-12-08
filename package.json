@@ -1,6 +1,6 @@
 {
   "name": "react-selections",
-  "version": "1.0.4",
+  "version": "2.0.1",
   "description": "Interactive area selections for react apps",
   "main": "dist/index.js",
   "scripts": {
