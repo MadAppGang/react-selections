@@ -18,26 +18,40 @@ class AbstractSelection extends Component {
     this.handleBlur = this.handleBlur.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.setState = this.setState.bind(this);
+
+    this.className = 'mr-selection';
   }
 
   getStyles() {
     return this.getPositionStyles();
   }
 
+  calculateArea(dimensions) {
+    return dimensions.height * dimensions.width;
+  }
+
+  getMaxPossibleArea() {
+    const { containerParameters } = this.props;
+    return this.calculateArea(containerParameters.dimensions);
+  }
+
   getPositionStyles() {
     const { dimensions, coordinates } = this.state.area;
+    const area = this.calculateArea(dimensions);
+    const maxPossibleArea = this.getMaxPossibleArea();
+    const zIndex = maxPossibleArea - area;
 
     return Object.freeze({
       width: `${dimensions.width}px`,
       height: `${dimensions.height}px`,
       left: `${coordinates.x}px`,
       top: `${coordinates.y}px`,
-      zIndex: this.props.zIndex,
+      zIndex,
     });
   }
 
   getClassName() {
-    return 'mr-selection';
+    return this.className;
   }
 
   handleFocus() {
