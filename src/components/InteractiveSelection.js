@@ -141,7 +141,7 @@ class InteractiveSelection extends AbstractSelection {
     this.selectionEl.focus();
     const { target } = event;
 
-    if (this.props.freeze) {
+    if (this.props.frozen) {
       return;
     }
 
@@ -226,7 +226,7 @@ class InteractiveSelection extends AbstractSelection {
   getClassName() {
     const { isHovered, isFocused, draggableMode } = this.state;
     const {
-      className, hoverClassName, focusClassName, freeze,
+      className, hoverClassName, focusClassName, frozen,
     } = this.props;
 
     return new CSSClassBuilder('mr-selection')
@@ -234,7 +234,7 @@ class InteractiveSelection extends AbstractSelection {
       .combine(className)
       .combineIf(isHovered, hoverClassName)
       .combineIf(isFocused, focusClassName)
-      .combineIf(freeze, 'mr-selection--transparent')
+      .combineIf(frozen, 'mr-selection--transparent')
       .combineIf(draggableMode, 'mr-interactive-selection--drag');
   }
 
@@ -301,14 +301,14 @@ class InteractiveSelection extends AbstractSelection {
 }
 
 InteractiveSelection.propTypes = {
-  freeze: PropTypes.bool,
+  frozen: PropTypes.bool,
   createdByUser: PropTypes.bool,
   isSingle: PropTypes.bool,
   onAreaUpdate: PropTypes.func,
 };
 
 InteractiveSelection.defaultProps = {
-  freeze: false,
+  frozen: false,
   createdByUser: false,
   isSingle: false,
   onAreaUpdate: null,
