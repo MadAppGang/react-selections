@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { SelectionContext } from './SelectionContainer';
 
-const asSelection = (Selection) => {
+const withContainer = (Selection) => {
   class WrappedSelection extends Component {
     render() {
       return (
@@ -15,4 +15,4 @@ const asSelection = (Selection) => {
   return WrappedSelection;
 };
 
-export { asSelection }
+export { withContainer }

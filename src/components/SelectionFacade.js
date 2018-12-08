@@ -1,7 +1,7 @@
 import React from 'react';
 import InteractiveSelection from './InteractiveSelection';
 import StyledSelection from './StyledSelection';
-import { asSelection } from './SelectionWrapper';
+import { withContainer } from './SelectionWrapper';
 
 const SelectionFacade = (props) => {
   if (props.interactive) {
@@ -15,4 +15,4 @@ const SelectionFacade = (props) => {
   );
 }
 
-export default asSelection(SelectionFacade);
+export default withContainer(SelectionFacade);
