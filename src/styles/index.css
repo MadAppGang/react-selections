@@ -17,7 +17,7 @@
 }
 
 .mr-interactive-selection--drag {
-  z-index: 999!important;
+  z-index: 99999999!important;
   border-color: #aaa !important;
   cursor: inherit;
 }
