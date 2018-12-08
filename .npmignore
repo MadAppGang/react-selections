@@ -3,3 +3,4 @@ coverage
 src
 __tests__
 node_modules
+examples
