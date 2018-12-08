@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import { calculateArea } from '../utils/area';
 import '../styles/index.css';
 
 class AbstractSelection extends Component {
@@ -26,18 +27,14 @@ class AbstractSelection extends Component {
     return this.getPositionStyles();
   }
 
-  calculateArea(dimensions) {
-    return dimensions.height * dimensions.width;
-  }
-
   getMaxPossibleArea() {
     const { containerParameters } = this.props;
-    return this.calculateArea(containerParameters.dimensions);
+    return calculateArea(containerParameters.dimensions);
   }
 
   getPositionStyles() {
     const { dimensions, coordinates } = this.state.area;
-    const area = this.calculateArea(dimensions);
+    const area = calculateArea(dimensions);
     const maxPossibleArea = this.getMaxPossibleArea();
     const zIndex = maxPossibleArea - area;
 
