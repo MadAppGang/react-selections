@@ -196,7 +196,7 @@ class InteractiveSelection extends AbstractSelection {
     const { isSingle } = this.props;
 
     this.setState({ draggableMode: false });
-    this.props.onUpdateSelection(this.state.area);
+    this.props.onAreaUpdate(this.state.area);
 
     setCursor(isSingle ? Cursors.GRAB : Cursors.DEFAULT);
     window.removeEventListener('mousemove', this.dragSelection);
@@ -204,7 +204,7 @@ class InteractiveSelection extends AbstractSelection {
 
   stopResizeSelection() {
     window.removeEventListener('mousemove', this.resizeSelection);
-    this.props.onUpdateSelection(this.state.area);
+    this.props.onAreaUpdate(this.state.area);
   }
 
   startResize(resizeSide) {
@@ -304,14 +304,14 @@ InteractiveSelection.propTypes = {
   freeze: PropTypes.bool,
   createdByUser: PropTypes.bool,
   isSingle: PropTypes.bool,
-  onUpdateSelection: PropTypes.func,
+  onAreaUpdate: PropTypes.func,
 };
 
 InteractiveSelection.defaultProps = {
   freeze: false,
   createdByUser: false,
   isSingle: false,
-  onUpdateSelection: null,
+  onAreaUpdate: null,
 };
 
 export default InteractiveSelection;
