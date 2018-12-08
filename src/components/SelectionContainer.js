@@ -53,16 +53,17 @@ class SelectionContainer extends Component {
 
   render() {
     const { rootParameters } = this.state;
-    // const extraProps = { containerParameters: rootParameters };
-    const style = {};
+    let style = {};
 
     const hasZeroDimension = Object
       .values(rootParameters.dimensions)
       .some(val => val === 0);
 
     if (!hasZeroDimension) {
-      style.width = `${rootParameters.dimensions.width}px`;
-      style.height = `${rootParameters.dimensions.height}px`;
+      style = {
+        width: `${rootParameters.dimensions.width}px`,
+        height: `${rootParameters.dimensions.height}px`,
+      };
     }
 
     const className = new CSSClassBuilder('mr-selection-container')
