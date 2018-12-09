@@ -6,22 +6,17 @@ import { getClientY } from '../utils/events';
 import Cursors, { setCursor } from '../utils/cursors';
 import ResizeCalculator from '../core/resize';
 import DragCalculator from '../core/drag';
-
 import * as sides from '../utils/sides';
 
 const MIN_DIMENSION_SIZE_FOR_BIG_HANDLE = 40;
 const BIG_HANDLE_SIZE = 8;
 const SMALL_HANDLE_SIZE = 5;
 
-const getHandleSize = (regionDimensions) => {
-  const isRegionTooSmall = Object.values(regionDimensions)
+const getHandleSize = (dimensions) => {
+  const isTooSmall = Object.values(dimensions)
     .some(d => d < MIN_DIMENSION_SIZE_FOR_BIG_HANDLE);
 
-  if (isRegionTooSmall) {
-    return SMALL_HANDLE_SIZE;
-  }
-
-  return BIG_HANDLE_SIZE;
+  return isTooSmall ? SMALL_HANDLE_SIZE : BIG_HANDLE_SIZE;
 };
 
 class InteractiveSelection extends AbstractSelection {
@@ -46,8 +41,7 @@ class InteractiveSelection extends AbstractSelection {
   }
 
   componentDidMount() {
-    this.selectionEl
-      .addEventListener('mousedown', this.handleMouseDownOnSelection);
+    this.selectionEl.addEventListener('mousedown', this.handleMouseDownOnSelection);
 
     if (this.props.createdByUser) {
       this.manuallyStartToResize();
@@ -57,9 +51,9 @@ class InteractiveSelection extends AbstractSelection {
   componentWillReceiveProps(nextProps) {
     const { area, containerParameters } = nextProps;
 
+    this.resizeCalculator = ResizeCalculator(containerParameters);
+    this.dragCalculator = DragCalculator(containerParameters);
     this.containerParameters = containerParameters;
-    this.resizeCalculator = ResizeCalculator(this.containerParameters);
-    this.dragCalculator = DragCalculator(this.containerParameters);
 
     this.setState({ area });
   }
@@ -108,13 +102,10 @@ class InteractiveSelection extends AbstractSelection {
       return;
     }
 
-    const isMouseDownOnSelection = target === this.selectionEl;
-
-    if (isMouseDownOnSelection) {
+    if (target === this.selectionEl) {
       this.startDrag(event);
     } else {
-      const resizeSide = target.dataset.side;
-      this.startResize(resizeSide);
+      this.startResize(target.dataset.side);
     }
 
     window.addEventListener('mouseup', this.handleMouseUp);
