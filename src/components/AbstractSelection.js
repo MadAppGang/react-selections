@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { calculateArea } from '../utils/area';
 import '../styles/index.css';
 
+const px = value => `${value}px`;
+
 class AbstractSelection extends Component {
   constructor(props) {
     super(props);
@@ -32,18 +34,22 @@ class AbstractSelection extends Component {
     return calculateArea(containerParameters.dimensions);
   }
 
-  getPositionStyles() {
-    const { dimensions, coordinates } = this.state.area;
+  getZIndex(dimensions) {
     const area = calculateArea(dimensions);
     const maxPossibleArea = this.getMaxPossibleArea();
-    const zIndex = maxPossibleArea - area;
+
+    return maxPossibleArea - area;
+  };
+
+  getPositionStyles() {
+    const { dimensions, coordinates } = this.state.area;
 
     return Object.freeze({
-      width: `${dimensions.width}px`,
-      height: `${dimensions.height}px`,
-      left: `${coordinates.x}px`,
-      top: `${coordinates.y}px`,
-      zIndex,
+      width: px(dimensions.width),
+      height: px(dimensions.height),
+      left: px(coordinates.x),
+      top: px(coordinates.y),
+      zIndex: this.getZIndex(dimensions),
     });
   }
 
@@ -78,7 +84,6 @@ class AbstractSelection extends Component {
   render() {
     const styles = this.getStyles();
     const className = this.getClassName();
-
     const { focusable = true } = this.props;
 
     return (
@@ -120,7 +125,6 @@ AbstractSelection.defaultProps = {
   onClick: null,
   onFocus: null,
   onBlur: null,
-  focusable: true,
 };
 
 export const abastractSelectionScheme = AbstractSelection.propTypes;
