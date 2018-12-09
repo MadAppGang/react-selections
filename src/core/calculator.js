@@ -14,7 +14,6 @@ function Calculator(containerParams) {
     const innerX = selection.x() - container.paddingLeft();
     const boxRightBorder = innerX + selection.width();
     const xWithinContainer = event.clientX - container.offsetLeft();
-
     const tooCloseToLeft = xWithinContainer - innerX <= MIN_WIDTH;
 
     if (tooCloseToLeft) {
@@ -44,7 +43,6 @@ function Calculator(containerParams) {
     const innerX = selection.x() - container.paddingLeft();
     const boxRightBorder = innerX + selection.width();
     const xWithinContainer = event.clientX - container.offsetLeft();
-
     const isTooCloseToRight = boxRightBorder - xWithinContainer <= MIN_WIDTH;
 
     if (isTooCloseToRight) {
@@ -79,14 +77,13 @@ function Calculator(containerParams) {
     const innerY = selection.y() - container.paddingTop();
     const yWithinContainer = getClientY(event) - container.offsetTop();
     const boxBottomBorder = innerY + selection.height();
-
-    let nextSelectionHeight;
-
-    const tooCloseToTop = yWithinContainer - innerY <= 10;
+    const tooCloseToTop = yWithinContainer - innerY <= MIN_WIDTH;
 
     if (tooCloseToTop) {
       return selectionParams;
     }
+
+    let nextSelectionHeight;
 
     if (yWithinContainer > container.height()) {
       nextSelectionHeight = container.height() - innerY;
@@ -105,9 +102,43 @@ function Calculator(containerParams) {
     });
   };
 
+  const calculateTopResize = (event, selectionParams) => {
+    const selection = SelectionAccessor(selectionParams);
+
+    const innerY = selection.y() - container.paddingTop();
+    const selectionBottomBorder = innerY + selection.height();
+    const yWithinContainer = getClientY(event) - container.offsetTop();
+    const tooCloseToBottom = selectionBottomBorder - yWithinContainer <= MIN_WIDTH;
+
+    if (tooCloseToBottom) {
+      return selectionParams;
+    }
+
+    let nextY = 0;
+    let nextSelectionHeight = selectionBottomBorder;
+
+    if (yWithinContainer > 0) {
+      const travelDistance = innerY - yWithinContainer;
+
+      nextSelectionHeight = selection.height() + travelDistance;
+      nextY = innerY - travelDistance;
+    }
+
+    return Object.freeze({
+      coordinates: {
+        x: selection.x(),
+        y: nextY + container.paddingTop(),
+      },
+      dimensions: {
+        width: selection.width(),
+        height: nextSelectionHeight,
+      },
+    });
+  };
+
   const forSide = (side) => {
     return {
-      // [sides.TOP]: calculateTopResize,
+      [sides.TOP]: calculateTopResize,
       [sides.BOTTOM]: calculateBottomResize,
       [sides.RIGHT]: calculateRightResize,
       [sides.LEFT]: calculateLeftResize,
