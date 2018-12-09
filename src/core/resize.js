@@ -9,8 +9,7 @@ const replaceSecondWith = replacement => (arg, index) => {
   return index !== 1 ? arg : replacement;
 };
 
-
-function Calculator(containerParams) {
+function ResizeCalculator(containerParams) {
   const container = ContainerAccessor(containerParams);
 
   const calculateRightResize = (event, selectionParams) => {
@@ -185,4 +184,4 @@ function Calculator(containerParams) {
   return Object.freeze({ forSide });
 }
 
-export default Calculator;
+export default ResizeCalculator;

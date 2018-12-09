@@ -2,10 +2,10 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CSSClassBuilder from 'css-class-combiner';
 import AbstractSelection from './AbstractSelection';
-import { calculateDragSelection } from '../core/calculate';
 import { getClientY } from '../utils/events';
 import Cursors, { setCursor } from '../utils/cursors';
-import Calculator from '../core/calculator';
+import ResizeCalculator from '../core/resize';
+import DragCalculator from '../core/drag';
 
 import * as sides from '../utils/sides';
 
@@ -56,7 +56,8 @@ class InteractiveSelection extends AbstractSelection {
     const { area, containerParameters } = nextProps;
 
     this.containerParameters = containerParameters;
-    this.calculator = Calculator(this.containerParameters);
+    this.resizeCalculator = ResizeCalculator(this.containerParameters);
+    this.dragCalculator = DragCalculator(this.containerParameters);
 
     this.setState({ area });
   }
@@ -77,14 +78,12 @@ class InteractiveSelection extends AbstractSelection {
   }
 
   getSelectionOffsets() {
-    let { left, top } = this.selectionEl.getBoundingClientRect();
+    const { left, top } = this.selectionEl.getBoundingClientRect();
 
-    left += window.pageXOffset;
-    top += window.pageYOffset;
-
-    return {
-      left, top,
-    };
+    return Object.freeze({
+      left: left + window.pageXOffset,
+      top: top + window.pageYOffset,
+    });
   }
 
   getInnerOffsets(event) {
@@ -99,10 +98,10 @@ class InteractiveSelection extends AbstractSelection {
     const innerOffsetLeft = clientX - selectionLeftOffset;
     const innerOffsetTop = clientY - selectionTopOffset;
 
-    return {
+    return Object.freeze({
       left: innerOffsetLeft,
       top: innerOffsetTop,
-    };
+    });
   }
 
   handleMouseUp() {
@@ -146,19 +145,14 @@ class InteractiveSelection extends AbstractSelection {
   dragSelection(event) {
     event.stopPropagation();
     const { area, innerOffsets } = this.state;
-    const coordinates = calculateDragSelection(
-      event,
-      area,
-      innerOffsets,
-      this.containerParameters,
-    );
+    const coordinates = this.dragCalculator.calculate(event, area, innerOffsets);
 
     this.setState({ area: { ...area, coordinates } });
   }
 
   resizeSelection(event) {
     event.stopPropagation();
-    const calculate = this.calculator.forSide(this.resizeSide)
+    const calculate = this.resizeCalculator.forSide(this.resizeSide)
     const area = calculate(event, this.state.area);
 
     this.setState({
