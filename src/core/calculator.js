@@ -1,6 +1,7 @@
-import * as sides from '../utils/sides';
 import ContainerAccessor from './container';
 import SelectionAccessor from './selection';
+import { getClientY } from '../utils/events';
+import * as sides from '../utils/sides';
 
 const MIN_WIDTH = 10;
 
@@ -23,9 +24,9 @@ function Calculator(containerParams) {
     let nextSelectionWidth = container.width() - innerX;
 
     if (xWithinContainer <= container.width()) {
-      const oldBorderDifference = xWithinContainer - boxRightBorder;
+      const travelDistance = xWithinContainer - boxRightBorder;
 
-      nextSelectionWidth = selection.width() + oldBorderDifference;
+      nextSelectionWidth = selection.width() + travelDistance;
     }
 
     return Object.freeze({
@@ -54,10 +55,10 @@ function Calculator(containerParams) {
     let nextSelectionWidth = boxRightBorder;
 
     if (xWithinContainer > 0) {
-      const oldBorderDifference = xWithinContainer - innerX;
+      const travelDistance = xWithinContainer - innerX;
 
-      nextX = innerX + oldBorderDifference;
-      nextSelectionWidth = selection.width() - oldBorderDifference;
+      nextX = innerX + travelDistance;
+      nextSelectionWidth = selection.width() - travelDistance;
     }
 
     return Object.freeze({
@@ -72,10 +73,42 @@ function Calculator(containerParams) {
     });
   };
 
+  const calculateBottomResize = (event, selectionParams) => {
+    const selection = SelectionAccessor(selectionParams);
+
+    const innerY = selection.y() - container.paddingTop();
+    const yWithinContainer = getClientY(event) - container.offsetTop();
+    const boxBottomBorder = innerY + selection.height();
+
+    let nextSelectionHeight;
+
+    const tooCloseToTop = yWithinContainer - innerY <= 10;
+
+    if (tooCloseToTop) {
+      return selectionParams;
+    }
+
+    if (yWithinContainer > container.height()) {
+      nextSelectionHeight = container.height() - innerY;
+    } else {
+      const travelDistance = yWithinContainer - boxBottomBorder;
+
+      nextSelectionHeight = selection.height() + travelDistance;
+    }
+
+    return Object.freeze({
+      coordinates: selectionParams.coordinates,
+      dimensions: {
+        height: nextSelectionHeight,
+        width: selection.width(),
+      },
+    });
+  };
+
   const forSide = (side) => {
     return {
-      // [sides.TOP]: calculateTopSideResize,
-      // [sides.BOTTOM]: calculateBottomSideResize,
+      // [sides.TOP]: calculateTopResize,
+      [sides.BOTTOM]: calculateBottomResize,
       [sides.RIGHT]: calculateRightResize,
       [sides.LEFT]: calculateLeftResize,
       // [sides.BOTTOM_RIGHT]: calculateBottomRightSidesResize,

@@ -2,17 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import CSSClassBuilder from 'css-class-combiner';
 import AbstractSelection from './AbstractSelection';
-import {
-  calculateTopSideResize,
-  calculateBottomSideResize,
-  calculateRightSideResize,
-  calculateLeftSideResize,
-  calculateBottomRightSidesResize,
-  calculateBottomLeftSidesResize,
-  calculateTopRightSidesResize,
-  calculateTopLeftSidesResize,
-  calculateDragSelection,
-} from '../core/calculate';
+import { calculateDragSelection } from '../core/calculate';
 import { getClientY } from '../utils/events';
 import Cursors, { setCursor } from '../utils/cursors';
 import Calculator from '../core/calculator';
