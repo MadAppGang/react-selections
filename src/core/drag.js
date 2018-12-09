@@ -15,7 +15,7 @@ function DragCalculator(containerParams) {
     x = x < 0 ? 0 : x;
 
     const isBeyondContainerWidth = (x + selection.width()) > container.width();
-    const isBeyondContainerHeight = (y + selection.height()) > container.height;
+    const isBeyondContainerHeight = (y + selection.height()) > container.height();
 
     if (isBeyondContainerWidth) {
       x = container.width() - selection.width();
