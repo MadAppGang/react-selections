@@ -168,7 +168,7 @@ class InteractiveSelection extends AbstractSelection {
 
   resizeSelection(event) {
     event.stopPropagation();
-    const calculate = this.calculator.forSide(sides.RIGHT)
+    const calculate = this.calculator.forSide(this.resizeSide)
     const area = calculate(event, this.state.area);
 
     this.setState({

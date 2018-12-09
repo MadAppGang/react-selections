@@ -20,28 +20,56 @@ function Calculator(containerParams) {
       return selectionParams;
     }
 
-    let nextSelectionWidth;
+    let nextSelectionWidth = container.width() - innerX;
 
-    if (xWithinContainer > container.width()) {
-      nextSelectionWidth = container.width() - innerX;
-    } else {
+    if (xWithinContainer <= container.width()) {
       const oldBorderDifference = xWithinContainer - boxRightBorder;
 
       nextSelectionWidth = selection.width() + oldBorderDifference;
     }
 
-    const res = Object.freeze({
+    return Object.freeze({
+      dimensions: {
+        width: nextSelectionWidth,
+        height: selection.height(),
+      },
+      coordniates: selectionParams.coordinates,
+    });
+  };
+
+  const calculateLeftResize = (event, selectionParams) => {
+    const selection = SelectionAccessor(selectionParams);
+
+    const innerX = selection.x() - container.paddingLeft();
+    const boxRightBorder = innerX + selection.width();
+    const xWithinContainer = event.clientX - container.offsetLeft();
+
+    const isTooCloseToRight = boxRightBorder - xWithinContainer <= MIN_WIDTH;
+
+    if (isTooCloseToRight) {
+      return selectionParams;
+    }
+
+    let nextX = 0;
+    let nextSelectionWidth = boxRightBorder;
+
+    if (xWithinContainer > 0) {
+      const oldBorderDifference = xWithinContainer - innerX;
+
+      nextX = innerX + oldBorderDifference;
+      nextSelectionWidth = selection.width() - oldBorderDifference;
+    }
+
+    return Object.freeze({
       dimensions: {
         width: nextSelectionWidth,
         height: selection.height(),
       },
       coordinates: {
-        x: selection.x(),
+        x: nextX + container.paddingLeft(),
         y: selection.y(),
       },
     });
-
-    return res;
   };
 
   const forSide = (side) => {
@@ -49,7 +77,7 @@ function Calculator(containerParams) {
       // [sides.TOP]: calculateTopSideResize,
       // [sides.BOTTOM]: calculateBottomSideResize,
       [sides.RIGHT]: calculateRightResize,
-      // [sides.LEFT]: calculateLeftSideResize,
+      [sides.LEFT]: calculateLeftResize,
       // [sides.BOTTOM_RIGHT]: calculateBottomRightSidesResize,
       // [sides.BOTTOM_LEFT]: calculateBottomLeftSidesResize,
       // [sides.TOP_RIGHT]: calculateTopRightSidesResize,
