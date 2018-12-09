@@ -15,20 +15,22 @@ function DragCalculator(containerParams) {
     x = x < 0 ? 0 : x;
 
     const isBeyondContainerWidth = (x + selection.width()) > container.width();
+    const isBeyondContainerHeight = (y + selection.height()) > container.height;
 
     if (isBeyondContainerWidth) {
       x = container.width() - selection.width();
     }
-
-    const isBeyondContainerHeight = (y + selection.height()) > container.height;
 
     if (isBeyondContainerHeight) {
       y = container.height() - selection.height();
     }
 
     return Object.freeze({
-      x: x + container.paddingLeft(),
-      y: y + container.paddingTop(),
+      ...selectionParams,
+      coordinates: {
+        x: x + container.paddingLeft(),
+        y: y + container.paddingTop(),
+      },
     });
   };
 

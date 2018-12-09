@@ -67,16 +67,6 @@ class InteractiveSelection extends AbstractSelection {
       .removeEventListener('mousedown', this.handleMouseDownOnSelection);
   }
 
-  setDefaultInnerOffset() {
-    const { dimensions } = this.state.area;
-    const innerOffsets = {
-      left: dimensions.width / 2,
-      top: dimensions.height / 2,
-    };
-
-    this.setState({ innerOffsets });
-  }
-
   getSelectionOffsets() {
     const { left, top } = this.selectionEl.getBoundingClientRect();
 
@@ -87,20 +77,11 @@ class InteractiveSelection extends AbstractSelection {
   }
 
   getInnerOffsets(event) {
-    const { clientX } = event;
-    const clientY = getClientY(event);
-
-    const {
-      top: selectionTopOffset,
-      left: selectionLeftOffset,
-    } = this.getSelectionOffsets();
-
-    const innerOffsetLeft = clientX - selectionLeftOffset;
-    const innerOffsetTop = clientY - selectionTopOffset;
+    const selectionOffsets = this.getSelectionOffsets();
 
     return Object.freeze({
-      left: innerOffsetLeft,
-      top: innerOffsetTop,
+      left: event.clientX - selectionOffsets.left,
+      top: getClientY(event) - selectionOffsets.top,
     });
   }
 
@@ -145,9 +126,10 @@ class InteractiveSelection extends AbstractSelection {
   dragSelection(event) {
     event.stopPropagation();
     const { area, innerOffsets } = this.state;
-    const coordinates = this.dragCalculator.calculate(event, area, innerOffsets);
 
-    this.setState({ area: { ...area, coordinates } });
+    this.setState({
+      area: this.dragCalculator.calculate(event, area, innerOffsets),
+    });
   }
 
   resizeSelection(event) {
