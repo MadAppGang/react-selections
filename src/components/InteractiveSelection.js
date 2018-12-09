@@ -15,6 +15,7 @@ import {
 } from '../core/calculate';
 import { getClientY } from '../utils/events';
 import Cursors, { setCursor } from '../utils/cursors';
+import Calculator from '../core/calculator';
 
 import * as sides from '../utils/sides';
 
@@ -45,17 +46,6 @@ class InteractiveSelection extends AbstractSelection {
       draggableMode: false,
     };
 
-    this.handlers = {
-      [sides.TOP]: calculateTopSideResize,
-      [sides.BOTTOM]: calculateBottomSideResize,
-      [sides.RIGHT]: calculateRightSideResize,
-      [sides.LEFT]: calculateLeftSideResize,
-      [sides.BOTTOM_RIGHT]: calculateBottomRightSidesResize,
-      [sides.BOTTOM_LEFT]: calculateBottomLeftSidesResize,
-      [sides.TOP_RIGHT]: calculateTopRightSidesResize,
-      [sides.TOP_LEFT]: calculateTopLeftSidesResize,
-    };
-
     this.handleMouseDownOnSelection =
       this.handleMouseDownOnSelection.bind(this);
     this.handleMouseUp = this.handleMouseUp.bind(this);
@@ -76,6 +66,7 @@ class InteractiveSelection extends AbstractSelection {
     const { area, containerParameters } = nextProps;
 
     this.containerParameters = containerParameters;
+    this.calculator = Calculator(this.containerParameters);
 
     this.setState({ area });
   }
@@ -177,12 +168,8 @@ class InteractiveSelection extends AbstractSelection {
 
   resizeSelection(event) {
     event.stopPropagation();
-    const calculate = this.handlers[this.resizeSide];
-    const area = calculate(
-      event,
-      this.state.area,
-      this.containerParameters,
-    );
+    const calculate = this.calculator.forSide(sides.RIGHT)
+    const area = calculate(event, this.state.area);
 
     this.setState({
       area: {
