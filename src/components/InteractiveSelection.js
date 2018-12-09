@@ -125,11 +125,10 @@ class InteractiveSelection extends AbstractSelection {
 
   dragSelection(event) {
     event.stopPropagation();
-    const { area, innerOffsets } = this.state;
 
-    this.setState({
-      area: this.dragCalculator.calculate(event, area, innerOffsets),
-    });
+    this.setState(state => ({
+      area: this.dragCalculator.calculate(event, state.area, this.innerOffsets),
+    }));
   }
 
   resizeSelection(event) {
@@ -166,10 +165,8 @@ class InteractiveSelection extends AbstractSelection {
   }
 
   startDrag(event) {
-    this.setState({
-      draggableMode: true,
-      innerOffsets: this.getInnerOffsets(event),
-    });
+    this.setState({ draggableMode: true });
+    this.innerOffsets = this.getInnerOffsets(event);
 
     setCursor(Cursors.GRABBING);
 
