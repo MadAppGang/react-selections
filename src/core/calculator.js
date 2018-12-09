@@ -5,6 +5,11 @@ import * as sides from '../utils/sides';
 
 const MIN_WIDTH = 10;
 
+const replaceSecondWith = replacement => (arg, index) => {
+  return index !== 1 ? arg : replacement;
+};
+
+
 function Calculator(containerParams) {
   const container = ContainerAccessor(containerParams);
 
@@ -33,7 +38,7 @@ function Calculator(containerParams) {
         width: nextSelectionWidth,
         height: selection.height(),
       },
-      coordniates: selectionParams.coordinates,
+      coordinates: selectionParams.coordinates,
     });
   };
 
@@ -136,22 +141,48 @@ function Calculator(containerParams) {
     });
   };
 
+  const calculateBottomRightResize = (...args) => {
+    const nextSelectionParams = calculateBottomResize(...args);
+    const nextArgs = args.map(replaceSecondWith(nextSelectionParams));
+
+    return calculateRightResize(...nextArgs);
+  };
+
+  const calculateBottomLeftResize = (...args) => {
+    const nextSelectionParams = calculateBottomResize(...args);
+    const nextArgs = args.map(replaceSecondWith(nextSelectionParams));
+
+    return calculateLeftResize(...nextArgs);
+  };
+
+  const calculateTopLeftResize = (...args) => {
+    const nextSelectionParams = calculateTopResize(...args);
+    const nextArgs = args.map(replaceSecondWith(nextSelectionParams));
+
+    return calculateLeftResize(...nextArgs);
+  };
+
+  const calculateTopRightResize = (...args) => {
+    const updatedSelectionParams = calculateTopResize(...args);
+    const nextArgs = args.map(replaceSecondWith(updatedSelectionParams));
+
+    return calculateRightResize(...nextArgs);
+  };
+
   const forSide = (side) => {
     return {
       [sides.TOP]: calculateTopResize,
       [sides.BOTTOM]: calculateBottomResize,
       [sides.RIGHT]: calculateRightResize,
       [sides.LEFT]: calculateLeftResize,
-      // [sides.BOTTOM_RIGHT]: calculateBottomRightSidesResize,
-      // [sides.BOTTOM_LEFT]: calculateBottomLeftSidesResize,
-      // [sides.TOP_RIGHT]: calculateTopRightSidesResize,
-      // [sides.TOP_LEFT]: calculateTopLeftSidesResize,
+      [sides.BOTTOM_RIGHT]: calculateBottomRightResize,
+      [sides.BOTTOM_LEFT]: calculateBottomLeftResize,
+      [sides.TOP_RIGHT]: calculateTopRightResize,
+      [sides.TOP_LEFT]: calculateTopLeftResize,
     }[side];
   };
 
-  return Object.freeze({
-    forSide,
-  });
+  return Object.freeze({ forSide });
 }
 
 export default Calculator;

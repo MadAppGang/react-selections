@@ -8,7 +8,6 @@ function ContainerAccessor(params) {
   const offsetTop = () => params.offsets.top;
   
   const height = () => params.dimensions.height;
-
   const width = () => params.dimensions.width;
 
   const paddingLeft = () => paddings.left;
