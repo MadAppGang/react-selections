@@ -27,7 +27,10 @@ const getHandleSize = (regionDimensions) => {
 class InteractiveSelection extends AbstractSelection {
   constructor(props) {
     super(props);
+
     this.containerParameters = props.containerParameters;
+    this.innerOffsets = {};
+    this.selectionEl = null;
 
     this.state = {
       isFocused: false,
@@ -36,8 +39,7 @@ class InteractiveSelection extends AbstractSelection {
       draggableMode: false,
     };
 
-    this.handleMouseDownOnSelection =
-      this.handleMouseDownOnSelection.bind(this);
+    this.handleMouseDownOnSelection = this.handleMouseDownOnSelection.bind(this);
     this.handleMouseUp = this.handleMouseUp.bind(this);
     this.dragSelection = this.dragSelection.bind(this);
     this.resizeSelection = this.resizeSelection.bind(this);
