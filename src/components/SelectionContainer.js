@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import CSSClassBuilder from 'css-class-combiner';
+import { getSelectionOffsets } from '../utils/area';
 
 export const SelectionContext = React.createContext('selection_container');
 
@@ -31,20 +32,11 @@ class SelectionContainer extends Component {
   }
 
   setRootParameters() {
-    let { left, top } = this.root.getBoundingClientRect();
-
-    top += window.pageYOffset;
-    left += window.pageXOffset;
-
-    const height = this.root.clientHeight;
-    const width = this.root.clientWidth;
-
     const rootParameters = {
-      offsets: {
-        left, top,
-      },
+      offsets: getSelectionOffsets(this.root),
       dimensions: {
-        width, height,
+        height: this.root.clientHeight,
+        width: this.root.clientWidth,
       },
     };
 

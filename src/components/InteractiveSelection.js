@@ -4,6 +4,7 @@ import CSSClassBuilder from 'css-class-combiner';
 import AbstractSelection from './AbstractSelection';
 import { getClientY } from '../utils/events';
 import Cursors, { setCursor } from '../utils/cursors';
+import { getSelectionOffsets } from '../utils/area';
 import ResizeCalculator from '../core/resize';
 import DragCalculator from '../core/drag';
 import * as sides from '../utils/sides';
@@ -30,22 +31,21 @@ class InteractiveSelection extends AbstractSelection {
     this.state = {
       isFocused: false,
       isHovered: false,
+      isDragging: false,
       area: props.area,
-      draggableMode: false,
     };
 
     this.handleMouseDownOnSelection = this.handleMouseDownOnSelection.bind(this);
     this.handleMouseUp = this.handleMouseUp.bind(this);
     this.dragSelection = this.dragSelection.bind(this);
     this.resizeSelection = this.resizeSelection.bind(this);
+
+    this.resizeCalculator = null;
+    this.dragCalculator = null;
   }
 
   componentDidMount() {
     this.selectionEl.addEventListener('mousedown', this.handleMouseDownOnSelection);
-
-    if (this.props.createdByUser) {
-      this.manuallyStartToResize();
-    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -63,17 +63,8 @@ class InteractiveSelection extends AbstractSelection {
       .removeEventListener('mousedown', this.handleMouseDownOnSelection);
   }
 
-  getSelectionOffsets() {
-    const { left, top } = this.selectionEl.getBoundingClientRect();
-
-    return Object.freeze({
-      left: left + window.pageXOffset,
-      top: top + window.pageYOffset,
-    });
-  }
-
   getInnerOffsets(event) {
-    const selectionOffsets = this.getSelectionOffsets();
+    const selectionOffsets = getSelectionOffsets(this.selectionEl);
 
     return Object.freeze({
       left: event.clientX - selectionOffsets.left,
@@ -82,9 +73,9 @@ class InteractiveSelection extends AbstractSelection {
   }
 
   handleMouseUp() {
-    const { draggableMode } = this.state;
+    const { isDragging } = this.state;
 
-    if (draggableMode) {
+    if (isDragging) {
       this.stopDragSelection();
     } else {
       this.stopResizeSelection();
@@ -95,24 +86,19 @@ class InteractiveSelection extends AbstractSelection {
 
   handleMouseDownOnSelection(event) {
     event.stopPropagation();
-    this.selectionEl.focus();
-    const { target } = event;
 
     if (this.props.frozen) {
       return;
     }
 
-    if (target === this.selectionEl) {
+    this.selectionEl.focus();
+
+    if (event.target === this.selectionEl) {
       this.startDrag(event);
     } else {
-      this.startResize(target.dataset.side);
+      this.startResize(event.target.dataset.side);
     }
 
-    window.addEventListener('mouseup', this.handleMouseUp);
-  }
-
-  manuallyStartToResize() {
-    this.startResize(sides.BOTTOM_RIGHT);
     window.addEventListener('mouseup', this.handleMouseUp);
   }
 
@@ -126,6 +112,7 @@ class InteractiveSelection extends AbstractSelection {
 
   resizeSelection(event) {
     event.stopPropagation();
+
     const calculate = this.resizeCalculator.forSide(this.resizeSide)
     const area = calculate(event, this.state.area);
 
@@ -138,12 +125,10 @@ class InteractiveSelection extends AbstractSelection {
   }
 
   stopDragSelection() {
-    const { isSingle } = this.props;
-
-    this.setState({ draggableMode: false });
+    this.setState({ isDragging: false });
     this.props.onAreaUpdate(this.state.area);
 
-    setCursor(isSingle ? Cursors.GRAB : Cursors.DEFAULT);
+    setCursor(Cursors.DEFAULT);
     window.removeEventListener('mousemove', this.dragSelection);
   }
 
@@ -154,20 +139,21 @@ class InteractiveSelection extends AbstractSelection {
 
   startResize(resizeSide) {
     this.resizeSide = resizeSide;
+
     window.addEventListener('mousemove', this.resizeSelection);
   }
 
   startDrag(event) {
-    this.setState({ draggableMode: true });
-    this.innerOffsets = this.getInnerOffsets(event);
-
     setCursor(Cursors.GRABBING);
+    this.setState({ isDragging: true });
+
+    this.innerOffsets = this.getInnerOffsets(event);
 
     window.addEventListener('mousemove', this.dragSelection);
   }
 
   getClassName() {
-    const { isHovered, isFocused, draggableMode } = this.state;
+    const { isHovered, isFocused, isDragging } = this.state;
     const {
       className, hoverClassName, focusClassName, frozen,
     } = this.props;
@@ -177,8 +163,8 @@ class InteractiveSelection extends AbstractSelection {
       .combine(className)
       .combineIf(isHovered, hoverClassName)
       .combineIf(isFocused, focusClassName)
-      .combineIf(frozen, 'mr-selection--transparent')
-      .combineIf(draggableMode, 'mr-interactive-selection--drag');
+      .combineIf(isDragging, 'mr-interactive-selection--drag')
+      .combineIf(frozen, 'mr-selection--transparent');
   }
 
   getStyles() {
@@ -245,15 +231,11 @@ class InteractiveSelection extends AbstractSelection {
 
 InteractiveSelection.propTypes = {
   frozen: PropTypes.bool,
-  createdByUser: PropTypes.bool,
-  isSingle: PropTypes.bool,
   onAreaUpdate: PropTypes.func,
 };
 
 InteractiveSelection.defaultProps = {
   frozen: false,
-  createdByUser: false,
-  isSingle: false,
   onAreaUpdate: null,
 };
 

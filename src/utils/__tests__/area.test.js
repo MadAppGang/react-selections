@@ -1,4 +1,8 @@
-import { calculateArea } from '../area';
+import {
+  calculateArea,
+  getSelectionOffsetsFrom,
+  getSelectionOffsets,
+} from '../area';
 
 describe('area utils', () => {
   describe('calculate area', () => {

@@ -82,8 +82,6 @@ class AbstractSelection extends Component {
   }
 
   render() {
-    const styles = this.getStyles();
-    const className = this.getClassName();
     const { focusable = true } = this.props;
 
     return (
@@ -91,8 +89,8 @@ class AbstractSelection extends Component {
         tabIndex={+focusable - 1}
         role="button"
         ref={el => this.selectionEl = el}
-        className={className}
-        style={styles}
+        className={this.getClassName()}
+        style={this.getStyle()}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         onMouseOver={this.handleMouseOver}
@@ -126,7 +124,5 @@ AbstractSelection.defaultProps = {
   onFocus: null,
   onBlur: null,
 };
-
-export const abastractSelectionScheme = AbstractSelection.propTypes;
 
 export default AbstractSelection;
