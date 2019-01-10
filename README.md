@@ -9,7 +9,7 @@ This is a library that provides a set of tools for drawing regions with cursor.
 ## Installation
 
 ```bash
-npm install --save react-selections
+npm install --save @madappgang/react-selections
 ```
 
 ## Usage
@@ -17,7 +17,7 @@ npm install --save react-selections
 You need to specify an area for the selections to be rendered inside of. Selections can't be drawn outside the container. The package provides a container component, which you should use to render as a parent node to your selections (and other components as well).
 
 ```javascript
-import { Selection, SelectionContainer } from 'react-selections';
+import { Selection, SelectionContainer } from '@madappgang/react-selections';
 ```
 
 You then simply wrap your area that you want to render selections above in the container:
