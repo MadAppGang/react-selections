@@ -21,6 +21,7 @@ class AbstractSelection extends Component {
     this.handleBlur = this.handleBlur.bind(this);
     this.handleFocus = this.handleFocus.bind(this);
     this.setState = this.setState.bind(this);
+    this.getStyles = this.getStyles.bind(this);
 
     this.className = 'mr-selection';
   }
@@ -90,7 +91,7 @@ class AbstractSelection extends Component {
         role="button"
         ref={el => this.selectionEl = el}
         className={this.getClassName()}
-        style={this.getStyle()}
+        style={this.getStyles()}
         onFocus={this.handleFocus}
         onBlur={this.handleBlur}
         onMouseOver={this.handleMouseOver}
