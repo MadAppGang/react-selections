@@ -29,13 +29,11 @@
     "react": "^16.4.1"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-preset-env": "^1.7.0",
-    "babel-preset-react": "^6.24.1",
-    "babel-preset-stage-1": "^6.24.1",
-    "jest": "^23.6.0",
-    "update-by-path": "^1.1.16"
+    "jest": "^24.8.0",
+    "@babel/cli": "^7.4.4",
+    "@babel/preset-env": "^7.4.5",
+    "@babel/preset-react": "^7.0.0"
   },
-  "author": "Denys Provodnikov, Mark Salabutin [MadAppGang]",
+  "author": "Denys Provodnikov, Mark Salabutin [https://madappgang.com]",
   "license": "MIT"
 }
