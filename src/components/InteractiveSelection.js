@@ -125,16 +125,22 @@ class InteractiveSelection extends AbstractSelection {
   }
 
   stopDragSelection() {
+    const { onAreaUpdate } = this.props;
     this.setState({ isDragging: false });
-    this.props.onAreaUpdate(this.state.area);
+    if (onAreaUpdate) {
+      onAreaUpdate(this.state.area);
+    }
 
     setCursor(Cursors.DEFAULT);
     window.removeEventListener('mousemove', this.dragSelection);
   }
 
   stopResizeSelection() {
+    const { onAreaUpdate } = this.props;
     window.removeEventListener('mousemove', this.resizeSelection);
-    this.props.onAreaUpdate(this.state.area);
+    if (onAreaUpdate) {
+      onAreaUpdate(this.state.area);
+    }
   }
 
   startResize(resizeSide) {
